@@ -1,4 +1,4 @@
-package main;
+package test;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -105,4 +105,36 @@ public class MyClient {
 //        System.out.println(host);
 //        System.out.println(port);
     }
+    
+    private Socket DiaoYu() throws IOException {
+        System.err.println("You are prohibited from accessing this website: " + host);
+        StringBuffer sb = new StringBuffer();
+        String URL = "http://today.hit.edu.cn/";
+        sb.append("GET "+URL+" HTTP/1.1\r\n");
+        sb.append("User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/64.0.3282.140 Safari/537.36 Edge/17.17134\r\n");
+        sb.append("Accept-Language: zh-Hans-CN, zh-Hans; q=0.5\r\n");
+        sb.append("Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8\r\n");
+        sb.append("Upgrade-Insecure-Requests: 1\r\n");
+        sb.append("Accept-Encoding: gzip, deflate\r\n");
+        sb.append("Host: today.hit.edu.cn\r\n");
+        sb.append("Proxy-Connection: Keep-Alive\r\n");
+        
+        sb.append("\r\n");
+        Socket socket = new Socket("today.hit.edu.cn", port);
+        System.out.println("Request Information:  ");   //正常访问
+        System.out.println(sb.toString());
+        socket.getOutputStream().write(sb.toString().getBytes());
+        socket.getOutputStream().flush();
+        return socket;
+    }
+    
+    // if (type.equalsIgnoreCase("CONNECT")) { //判断是否为https CONNECT 请求
+    // System.out.println(line);
+    //// socket.getOutputStream().write("HTTP/1.1 200 Connection
+    // Established\r\n\r\n".getBytes());
+    //// socket.getOutputStream().flush();
+    // return;
+    // } else {
+    //
+    // }
 }

@@ -6,7 +6,7 @@ import java.net.Socket;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-public class MyProxy {
+public class HttpProxy {
 
     private int port = 8888;
     private ServerSocket serverSocket;
@@ -14,7 +14,7 @@ public class MyProxy {
     private final int POOL_SIZE = 4;            //单个CPU时线程池中工作线程的数目
     private int count = 0;        //线程计数
     
-    public MyProxy() throws IOException {
+    public HttpProxy() throws IOException {
         serverSocket = new ServerSocket(port);
         //根据CPU数目创建线程池
         executorService = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors() * POOL_SIZE);
@@ -38,9 +38,9 @@ public class MyProxy {
 
     }
     
-    
+    //启动代理服务器
     public static void main(String[] args) throws IOException {
-        new MyProxy().service();
+        new HttpProxy().service();
     }
     
 
