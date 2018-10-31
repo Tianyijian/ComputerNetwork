@@ -1,4 +1,4 @@
-package main;
+package lab1_httpproxy;
 
 import java.io.IOException;
 import java.net.ServerSocket;
