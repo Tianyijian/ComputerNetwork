@@ -162,7 +162,7 @@ public class Server {
     // 读取文件
     private void readFile() {
         try {
-            File file = new File("src/lab3_gbn/test.txt");
+            File file = new File("src/lab3_sr/test.txt");
             InputStream fis = new FileInputStream(file);
             int size = fis.available(); // 记录文件总大小
             int i = 0;

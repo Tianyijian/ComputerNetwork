@@ -5,10 +5,12 @@ import java.net.DatagramSocket;
 import java.util.Random;
 
 public class revdThread implements Runnable {
+    
     private DatagramSocket cSocket;
     private DatagramPacket outPutPacket;
     private static int BUFFER_LENGTH = 1026; // 缓冲区大小
     private String type;    //标识该进程调用方
+    
     public revdThread(String type, DatagramSocket cSocket, DatagramPacket outPutPacket) {
         super();
         this.type = type;
