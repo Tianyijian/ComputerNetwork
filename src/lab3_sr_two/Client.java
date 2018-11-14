@@ -69,6 +69,8 @@ public class Client {
                     System.out.println("Receive from Server: " + data);
                     new Thread(new SendThread("ClientSend: ", channel, remoteAddr)).run();      //开启发送进程
                     
+                } else if (msg.equals("testsr")) {
+                    new Thread(new RecvThread("ClientRecv: ", cSocket, outPutPacket)).run();    //开启接收进程
                 }
             }
         } catch (IOException | InterruptedException e) {

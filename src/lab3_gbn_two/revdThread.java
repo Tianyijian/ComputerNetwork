@@ -25,7 +25,7 @@ public class revdThread implements Runnable {
             double ackLossRatio = 0.2; // 默认ack丢失率
             int seq = 0; // 包的序列号
             int waitSeq = 0; // 等待的序列号
-            int recvSeq = 0; // 接收窗口大小为1，已确认的序列号
+            int recvSeq = -1; // 接收窗口大小为1，已确认的序列号
             while (true) {
                 DatagramPacket inputPacket = new DatagramPacket(new byte[BUFFER_LENGTH], BUFFER_LENGTH);
                 cSocket.receive(inputPacket); // 使用阻塞模式接收数据
@@ -50,6 +50,7 @@ public class revdThread implements Runnable {
                         buffer[0] = (byte) recvSeq; // 构建期待包的Ack
                         buffer[1] = '0';
                     }
+                    System.out.println("waitSeq: " + waitSeq);
                     b = lossInLossRatio(ackLossRatio); // 判断是否模拟丢失Ack
                     if (b) { // Ack丢失
                         System.err.println(type + "The ack of " + buffer[0] + " loss");

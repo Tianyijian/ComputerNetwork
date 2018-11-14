@@ -118,7 +118,6 @@ public class SendThread implements Runnable{
         fileData[index][0] = (byte) (i);
         ack[i] = false;
         channel.send(ByteBuffer.wrap(fileData[index]), remoteAddr);
-
     }
 
     // 判断当前序列号是否可用

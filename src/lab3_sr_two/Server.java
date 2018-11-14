@@ -53,8 +53,8 @@ public class Server {
                 if (data.startsWith("bye")) { // 结束
                     System.out.println("Server shutdown");
                     break;
-                } else if (data.startsWith("testsr -two")) { // 开始测试
-                    System.out.println("Begin to test SR protocol!");
+                } else if (data.startsWith("testsr -two")) { // 开始测试双向SR传输
+                    System.out.println("Begin to test two-way SR protocol!");
                     new Thread(new SendThread("ServerSend: ", channel, remoteAddr)).start();  //开启发送文件线程
                     
                     InetAddress remoteIp = InetAddress.getByName(remoteHost);
@@ -63,6 +63,10 @@ public class Server {
                     cSocket.send(outPutPacket);
                     
                     new Thread(new RecvThread("ServerRecv: ", cSocket, outPutPacket)).run();    //开启接收文件线程
+                } else if (data.startsWith("testsr")) {         //开始测试单向SR传输
+                    System.out.println("Begin to test SR protocol!");
+                    new Thread(new SendThread("ServerSend: ", channel, remoteAddr)).run();  //开启发送文件线程
+                    
                 }
             } catch (IOException | InterruptedException e) {
                 System.err.println(e.getMessage());

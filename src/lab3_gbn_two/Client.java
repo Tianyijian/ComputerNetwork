@@ -14,23 +14,23 @@ import java.nio.channels.DatagramChannel;
 public class Client {
 
     private String remoteHost = "localhost";
-    private int remotePort = 8888;
-    private int remoteport2 = 8800;
+    private int remotePort = 8888;  //端口1
+    private int remoteport2 = 8800; //端口2
     private DatagramSocket cSocket;
     
-    private DatagramChannel channel;
-    private DatagramSocket socket;
+    private DatagramChannel channel;    //发送使用非阻塞的channel
+    private DatagramSocket socket;      //发送socket
     private SocketAddress remoteAddr;
     private static int BUFFER_LENGTH = 1026; // 缓冲区大小
     private ByteBuffer buffer; // 缓冲区
     
     public Client() {
         try {
-            cSocket = new DatagramSocket();
+            cSocket = new DatagramSocket();     //接收socket初始化
             
             channel = DatagramChannel.open();
-            channel.configureBlocking(false); // 设置为非阻塞模式
-            socket = channel.socket();
+            channel.configureBlocking(false);   // 设置为非阻塞模式
+            socket = channel.socket();          //发送socket初始化
             SocketAddress localAddr = new InetSocketAddress(remoteport2);
             socket.bind(localAddr); // 绑定本地地址
             buffer = ByteBuffer.allocate(BUFFER_LENGTH);
@@ -39,7 +39,6 @@ public class Client {
             e.printStackTrace();
         }        
     }
-
 
 
     private void run() {
@@ -58,11 +57,13 @@ public class Client {
 
                 if (msg.equals("bye")) {
                     break;
-                } else if (msg.equals("testgbn -two")) {
-                    new Thread(new revdThread("ClientRecv: ", cSocket, outPutPacket)).start();    //开启接收进程
+                } else if (msg.equals("testgbn")){      //测试单向GBN
+                    new Thread(new revdThread("ClientRecv: ", cSocket, outPutPacket)).run();    //开启接收进程
                     
+                } else if (msg.equals("testgbn -two")) {  // 测试双向GBN
+                    new Thread(new revdThread("ClientRecv: ", cSocket, outPutPacket)).start();    //开启接收进程                    
                     
-                    while ((remoteAddr = channel.receive(buffer)) == null) {    //等待服务器的发送消息
+                    while ((remoteAddr = channel.receive(buffer)) == null) {    //等待服务器发送准备消息
                         Thread.sleep(200);
                     }
                     buffer.flip();

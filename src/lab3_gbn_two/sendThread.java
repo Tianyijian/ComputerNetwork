@@ -25,7 +25,6 @@ public class sendThread implements Runnable{
     private String type;    //标识该进程调用方
     
 
-
     public sendThread(String type, DatagramChannel channel, SocketAddress remoteAddr) {
         super();
         this.type = type;
@@ -36,12 +35,6 @@ public class sendThread implements Runnable{
             ack[i] = true;
         }
     }
-
-
-    public sendThread() {
-        super();
-    }
-
 
     @Override
     public void run() {
@@ -75,17 +68,15 @@ public class sendThread implements Runnable{
             }
         } catch (IOException | InterruptedException e) {
             System.err.println(e.getMessage());
-        }
-
-        
+        }        
     }
 
     
     // 处理ack，累积确认，取数据帧的第一个字节
     private void ackHandle(byte a) {
-        int index = (int) a; // 序列号减一还原
+        int index = (int) a; 
         System.out.println(type + "rcv ack" + a);
-        if (curAck <= index) {
+        if (curAck <= index) {  //收到的ACK前所有的序列号均设为收到
             for (int i = curAck; i <= index; i++) {
                 ack[i] = true;
             }
@@ -100,7 +91,6 @@ public class sendThread implements Runnable{
             }
             curAck = index + 1;
         }
-
     }
 
     // 处理超时重传，滑动窗口内的都要重传
@@ -154,8 +144,5 @@ public class sendThread implements Runnable{
         // System.out.println(ack[i]);
         // }
     }
-    
-    public static void main(String[] args) {
-        new sendThread().readFile();
-    }
+
 }
